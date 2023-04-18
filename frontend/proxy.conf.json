@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "https://backend.jollymushroom-ad52ecdc.canadacentral.azurecontainerapps.io",
+      "secure": true,
+      "changeOrigin": true
+    }
+  }
+  
