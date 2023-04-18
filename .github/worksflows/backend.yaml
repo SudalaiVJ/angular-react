@@ -1,0 +1,35 @@
+name: azure container apps
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+env:
+  AZURE_RESOURCE_GROUP: backend
+  BLOB_STORAGE_ACCOUNT_NAME: accountingmonk
+  
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+     # Authentication
+    - name: Authenticate with Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Deploy to storage using CLI
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: | 
+          az account show
+          az containerapp create \
+            --name cicd \
+            --resource-group $RESOURCE_GROUP \
+            --image sudalaivj/backend:v2 \
+            --target-port 3500 \
+            --ingress 'external' \
+            --registry-server docker.io \
+            --query properties.configuration.ingress.fqdn
