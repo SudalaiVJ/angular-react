@@ -25,11 +25,4 @@ jobs:
         azcliversion: latest
         inlineScript: | 
           az account show
-          az containerapp create \
-            --name cicd \
-            --resource-group $RESOURCE_GROUP \
-            --image sudalaivj/backend:v2 \
-            --target-port 3500 \
-            --ingress 'external' \
-            --registry-server docker.io \
-            --query properties.configuration.ingress.fqdn
+          az containerapp create --name cicd --resource-group $RESOURCE_GROUP --image sudalaivj/backend:v2 --target-port 3500 --ingress 'external' --registry-server docker.io --query properties.configuration.ingress.fqdn
