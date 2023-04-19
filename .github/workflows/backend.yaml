@@ -11,7 +11,7 @@ env:
   
 jobs:
   build:
-    name: Build
+    name: Build and deploy
     runs-on: ubuntu-latest
     steps:
      # Authentication
@@ -19,10 +19,15 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Deploy to storage using CLI
-      uses: azure/CLI@v1
+    
+    - name: Set Azure Container Apps context
+      uses: azure/container-apps-set-context@v1
       with:
-        azcliversion: latest
-        inlineScript: | 
-          az account show
-          az containerapp create --name cicd --resource-group $RESOURCE_GROUP --image sudalaivj/backend:v2 --target-port 3500 --ingress 'external' --registry-server docker.io --query properties.configuration.ingress.fqdn
+        resource-group-name: githubactions
+        instance-name: githubactionscicd
+
+    - name: Deploy to Azure Container Apps
+      uses: azure/container-apps-deploy@v1
+      with:
+        image: sudalaivj/backend:v2
+        port: 80
