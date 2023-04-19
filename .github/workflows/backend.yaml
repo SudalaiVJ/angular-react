@@ -3,7 +3,7 @@ name: azure container apps
 on:
   push:
     branches:
-      - main
+      - dev
  
 env:
   AZURE_RESOURCE_GROUP: backend

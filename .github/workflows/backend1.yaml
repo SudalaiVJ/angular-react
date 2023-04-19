@@ -1,0 +1,28 @@
+name: Deploy to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Authenticate with Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Create resource group
+      run: |
+        az group create --name my-resource-group --location eastus
+
+    - name: Create container instance
+      run: |
+        az container create --name my-container-group --image sudalaivj/backend:v2 --resource-group my-resource-group --cpu 1 --memory 1 --ports 80
+
+    
