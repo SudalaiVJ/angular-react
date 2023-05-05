@@ -10,7 +10,7 @@ services:
     image: postgres:13-alpine
     environment:
       POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword01
+      POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydb
     volumes:
       - db_data:/var/lib/postgresql/data/
